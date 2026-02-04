@@ -52,6 +52,8 @@ let uiStarSpeed;
 let uiRadioGame;
 let uiRadioBGM;
 
+let SPEED = 0.35;  // 0.35 = ~3x slower. Try 0.25–0.6
+
 // localStorage keys
 const LS_LEVELS = "mysteryworld_levels";
 const LS_SECS = "mysteryworld_secs";
@@ -248,6 +250,8 @@ function setup() {
 
   e20 = new Eagle(1310, 150);
   e20.high = false;
+
+  frameRate(30);
 }
 
 // ============================
@@ -785,7 +789,7 @@ class Star {
   }
   update() {
     this.ypos += this.yspd;
-    this.angle += this.angleSpd;
+    this.angle += this.angleSpd * SPEED;
   }
   changeSpeed(varSpeed) {
     this.yspd *= varSpeed;
