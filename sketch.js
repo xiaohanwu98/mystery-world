@@ -1039,7 +1039,7 @@ class Player {
             this.doing = 1;
           }
 
-          this.posx -= 20;
+          this.posx -= 10;
           this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
           image(runLeft[this.animate], this.posx, this.posy + 20, this.sizex * 0.4, this.sizey * 0.75);
           return;
@@ -1047,7 +1047,7 @@ class Player {
         } else if (key === 'd') {
           if (this.doing === 10 && this.posy < 230) {
             this.doing = 33;
-            this.posx += 20;
+            this.posx += 10;
             image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
             return;
           }
@@ -1057,7 +1057,7 @@ class Player {
             this.doing = 2;
           }
 
-          this.posx += 20;
+          this.posx += 10;
           this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
           image(run[this.animate], this.posx, this.posy, this.sizex, this.sizey);
           return;
@@ -1084,10 +1084,10 @@ class Player {
             this.animate += 1;
           } else if (this.animate < 4) {
             this.animate += 1;
-            this.posy -= 20;
+            this.posy -= 10;
           } else if (this.animate < 6) {
             this.animate += 1;
-            this.posy += 30;
+            this.posy += 10;
           } else {
             this.animate = 0;
           }
