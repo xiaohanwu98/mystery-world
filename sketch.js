@@ -52,9 +52,6 @@ let uiStarSpeed;
 let uiRadioGame;
 let uiRadioBGM;
 
-let runStartMs = 0;   // when the run begins
-let sec = 0;          // seconds elapsed (integer)
-
 // localStorage keys
 const LS_LEVELS = "mysteryworld_levels";
 const LS_SECS = "mysteryworld_secs";
@@ -321,7 +318,7 @@ function drawStartScreen() {
 }
 
 function drawLevel1() {
-  ssec = Math.floor((millis() - runStartMs) / 1000);
+  sec += 1;
 
   image(map1, 0, 0, gameWidth, gameHeight);
   image(house, gameWidth - 240, 90, 220, 240);
@@ -439,7 +436,7 @@ function drawScoreboard() {
 }
 
 function drawLevel2() {
-  sec = Math.floor((millis() - runStartMs) / 1000);
+  sec += 1;
 
   image(map2, 0, 0, gameWidth, gameHeight);
 
