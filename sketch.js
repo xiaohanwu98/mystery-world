@@ -695,11 +695,8 @@ class Cherry {
     this.hit = false;
   }
   display() {
-    if (frameCount % 6 === 0) {   // controls cherry animation speed
     if (this.animate < 6) this.animate += 1;
     else this.animate = 0;
-  }
-
 
     if (dist(this.xpos, this.ypos, p1.posx + 55, p1.posy + 48) < (p1.rad + 5)) {
       if (this.hit === false) {
@@ -730,7 +727,7 @@ class Gem {
     this.hit = false;
   }
   display() {
-    if (this.animate < 6) this.animate += 1;
+    if (this.animate < 3) this.animate += 1;
     else this.animate = 0;
 
     if (dist(this.xpos, this.ypos, p1.posx + 55, p1.posy + 48) < (p1.rad + 5)) {
@@ -817,7 +814,7 @@ class Eagle {
   }
   display() {
     if (this.die === false) {
-      if (this.animate < 6) this.animate += 1;
+      if (this.animate < 3) this.animate += 1;
       else this.animate = 0;
 
       if (this.high === true) {
@@ -851,7 +848,7 @@ class Eagle {
 
       image(eagle[this.animate], this.xpos, this.ypos, 80, 80);
     } else {
-      if (this.animate < 6) {
+      if (this.animate < 5) {
         this.animate += 1;
         image(edie[this.animate], this.xpos, this.ypos, 80, 80);
         if (this.animate === 1 && s6 && s6.isLoaded()) { s6.stop(); s6.play(); }
@@ -902,7 +899,7 @@ class Player {
     if (status === 2) {
       // ---------- player1 ----------
       if (this.die === true) {
-        if (this.animate < 8) {
+        if (this.animate < 5) {
           this.animate += 1;
           image(pdie[this.animate], this.posx, this.posy, this.sizex, this.sizey);
         } else {
@@ -912,7 +909,7 @@ class Player {
         }
         return;
       } else if (this.hurt === true) {
-        if (this.animate < 8) {
+        if (this.animate < 7) {
           this.animate += 1;
           this.posx -= 10;
           this.posy = 260;
