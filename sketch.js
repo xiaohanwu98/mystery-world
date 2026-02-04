@@ -362,7 +362,7 @@ function drawStartScreen() {
   // Exit button (browser)
   drawButton(width / 2 - 150, height / 2 + 20, 300, 100, "Exit", () => {
     // in browser, just go back to start
-    status = 1;
+    window.location.href = "https://jessica-xiaohan-wu.com/game-design";
   });
 }
 
