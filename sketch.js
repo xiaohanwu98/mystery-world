@@ -220,7 +220,7 @@ function setup() {
   stars = [];
 
   // init UI (replaces ControlP5)
-  buildUI();
+  //buildUI();
 
   // init level 1
   g1 = new Gem(200, 260);
