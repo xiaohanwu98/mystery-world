@@ -1,2 +1,19 @@
 html, body { margin: 0; padding: 0; background: #111; }
 canvas { display: block; margin: 0 auto; }
+#instructions {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 15px 20px;
+  background: #111;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  border-radius: 10px;
+}
+
+#instructions h3 {
+  margin-top: 0;
+}
+
+#instructions ul {
+  padding-left: 20px;
+}
