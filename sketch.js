@@ -634,37 +634,42 @@ function drawButton(x, y, w, h, label, onClick) {
 // ============================
 // UI (replaces ControlP5)
 // ============================
-//function buildUI() {
-  // Star Speed slider (100..400)
-  //uiStarSpeed = createSlider(100, 400, 100, 1);
-  //uiStarSpeed.position(20, 20);
-  //uiStarSpeed.style("width", "200px");
+function buildUI() {
+   //Star Speed slider (100..400)
+  uiStarSpeed = createSlider(100, 400, 100, 1);
+  uiStarSpeed.position(20, 20);
+  uiStarSpeed.style("width", "200px");
 
-  // Game radio: continue/pause/exit
-  //uiRadioGame = createRadio();
-  //uiRadioGame.option("continue", "0");
-  //uiRadioGame.option("pause", "1");
-  //uiRadioGame.option("exit", "2");
-  //uiRadioGame.selected("0");
-  //uiRadioGame.position(20, 60);
-  //uiRadioGame.changed(() => {
-    //const v = parseInt(uiRadioGame.value(), 10);
-    //if (v === 0) status = (status === 4 ? 2 : status); // continue
-    //if (v === 1) status = 4; // pause
-    //if (v === 2) status = 3; // exit (browser -> back to start)
-  //});
+   //Game radio: continue/pause/exit
+  uiRadioGame = createRadio();
+  uiRadioGame.option("continue", "0");
+  uiRadioGame.option("pause", "1");
+  uiRadioGame.option("exit", "2");
+  uiRadioGame.selected("0");
+  uiRadioGame.position(20, 60);
+  uiRadioGame.changed(() => {
+    const v = parseInt(uiRadioGame.value(), 10);
+    if (v === 0) status = (status === 4 ? 2 : status); // continue
+    if (v === 1) status = 4; // pause
+    if (v === 2) status = 3; // exit (browser -> back to start)
+  });
 
   // BGM radio: mute/unmute
-  //uiRadioBGM = createRadio();
-  //uiRadioBGM.option("Mute", "0");
-  //uiRadioBGM.option("Unmute", "1");
-  //uiRadioBGM.selected("1");
-  //uiRadioBGM.position(20, 110);
-  //uiRadioBGM.changed(() => {
-    //const v = parseInt(uiRadioBGM.value(), 10);
-    //setMute(v === 0);
-  //});
-//}
+  uiRadioBGM = createRadio();
+  uiRadioBGM.option("Mute", "0");
+  uiRadioBGM.option("Unmute", "1");
+  uiRadioBGM.selected("1");
+  uiRadioBGM.position(20, 110);
+  uiRadioBGM.changed(() => {
+    const v = parseInt(uiRadioBGM.value(), 10);
+    setMute(v === 0);
+  });
+    
+  // HIDE ALL UI (keep it from breaking anything)
+  uiStarSpeed.hide();
+  uiRadioGame.hide();
+  uiRadioBGM.hide();
+}
 
 function setMute(isMuted) {
   const all = [s1, s2, s3, s4, s5, s6].filter(Boolean);
