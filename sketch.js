@@ -258,6 +258,8 @@ function setup() {
 // draw
 // ============================
 function draw() {
+  clear();     // reset canvas pixels
+  noTint(); 
   // read UI star speed (100..400)
   changeSpeed1 = uiStarSpeed ? uiStarSpeed.value() : 100;
 
