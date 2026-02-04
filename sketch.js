@@ -615,33 +615,6 @@ function buildUI() {
     const v = parseInt(uiRadioBGM.value(), 10);
     setMute(v === 0);
   });
-
-  const instr = createDiv(`
-    <div style="
-      background: rgba(0,0,0,.55);
-      color: white;
-      padding: 10px 12px;
-      border-radius: 10px;
-      width: 320px;
-      font-family: Arial, sans-serif;
-      line-height: 1.35;
-      font-size: 14px;">
-      <b>How to Play</b><br/>
-      • Touch <b>stars</b> or <b>cherry</b> to restore HP<br/>
-      • Touch <b>eagles</b> to lose HP<br/>
-      • Press <b>A</b>/<b>D</b> to move<br/>
-      • Press <b>W</b>/<b>S</b> to jump / climb<br/>
-      • Press <b>Space</b> to attack eagles<br/>
-      • Collect <b>gems</b> / kill eagles to gain exp<br/>
-      <div style="opacity:.85;margin-top:6px;">
-        Tip: Use the <b>Star Speed</b> slider to adjust difficulty.
-      </div>
-    </div>
-  `);
-
-  instr.position(20, 150); // ✅ below your controls
-}
-
 }
 
 function setMute(isMuted) {
