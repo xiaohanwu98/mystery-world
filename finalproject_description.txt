@@ -1,0 +1,44 @@
+﻿Group Hello 
+Final Project Description
+
+
+Basic description:
+This is a simple RPG game. Before the game start, there is a menu that the user can click on to choose Start or Exit. After the user chooses Start, the first map appears. This game will record the level, HP, and experience of this character. The user will control a character to move left(A) or right(D), jump(W), crouch(S), climb(W or S when there is a tree or wall), or attack(Space). When the player touches a diamond or attacks an eagle, he will earn exp and getting more exp will let him achieve a higher level. The max HP rises as the level becomes higher. When the player is attacked by an eagle, he will lose HP. When the player touches rotating star or eats the cherry on the tree, he will get HP. When his HP is equal to or less than 0, he fails the game and the losing page will appear(he now can choose to restart, exit, or check max scores). If he successfully enters the wooden house’s door( the door will open automatically when the player arrives), he will enter the next map. Rules in map 2 are as same as those in map1. When he finishes the map 2 alive, he wins the game and the winning page will appear(he now can choose to restart, exit, or check max scores).
+
+
+Classes:
+Main: importing libraries, images, mp3 files; set up different game pages(cases); deal with the stars’ movement and generating; GUI system; mutable music, counting score.
+Class Cherry: the Cherry on the tree which can provide HP.
+Class Gem: diamonds on the road for the player to eat to get exp.
+Class Star: the rotating star group with two levels of animation hierarchy( red circle moving around).
+Class Eagle: the enemy spies, which will let the player lose HP. Or the player can attack them and earn more exp.
+Class Player: deal with the player’s inserted graphs and combine them as a moving person.
+
+
+Basic Requirements Fulfill:
+1. Keyboard interactivity: 
+The user could press (W, A, S, D) on the keyboard to control the movement of the character. W: move up (if there is a tree or a wall that can be climbed up, then the system will recognize “W” as climb; otherwise, “W” means jump up); A: moves left; S: moves down (if there is a tree or a wall that can be climbed down, then the system will recognize “S” as climb down; otherwise, “S” means crouch); D: moves right.
+What’s more, the user can attack eagles by pressing the “Space” key.
+       2)  Multiple GUI systems:
+Imported the controlP5 from the library. The player's level and player’s HP are displayed at the top left corner of the screen. Instruction and the star speed adjustment slide are placed at the bottom left corner. The game “pause” “continue” “exit” and music “mute” “unmute” buttons are placed at the bottom right corner.
+      3) Class objects with animation hierarchies:
+Stars randomly fall from the top of the screen are written in “class Star”. Yellow stars are falling down and rotating. At the same time, there is a small red circle rotating around each star. Here we accomplish the requirement of two levels of animation hierarchy. 
+     4) Data input/output:
+The data are stored in a txt file, the program will read the txt file, and display the information of users’ highest level and shortest time used to win this game that store in the txt file. The program also can save the newest record for every player.
+
+
+     5) Sound: 
+Imported minim from the library. We insert a piece of auto-played background music in this game. And when the character touches rotating stars and cherries, gets hurt, and attacks eagles, die or is being attacked by eagles, different short alerting sounds will be displayed. The user can click a GUI button “mute” on the game screen to mute all music and sounds, or he can click “unmute” to unmute these BGMs.
+
+
+Unexpected Challenges:
+The mutable sound could be a challenge. Since we only know how to insert the background music in previous homework. However, Jessica found out that minim is the best choice to deal with music files in processing.
+It’s quite hard to create 2 different maps. A complicated map may generate some bugs(the character will float in the sky after climbing the tree; the character can not jump out….) However, Nicole spent a lot of time adjusting these movement requirements.
+It’s quite to understand the specific meaning of the requirement of the data input/output. We went to professor Abraham’s office hour to discuss how we can implement this function in our project. And we followed her advice to add the “Check Score” function in this game to fulfill this requirement.
+
+
+Group contribution:
+We held several meetings to finish this final project together.
+Nicole(Yue Jiang): is responsible for the character’s animation, diamonds, cherry, eagles, multiple maps(add the extra map), Data input/output(check scores), exp and HP count;
+Jessica(Xiaohan Wu): is responsible for sound(mutable), rotating stars(two levels of animation hierarchy), GUI system(multiple), score, and description;
+And both of us focused on the animation and game logics since those are the most significant part of the game.
