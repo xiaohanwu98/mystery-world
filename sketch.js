@@ -860,20 +860,26 @@ class Eagle {
 // ============================
 // Player class (ported from your paste)
 // ============================
+// ============================
+// Player class (p5.js) — MAP1 + MAP2
+// ============================
 class Player {
   constructor(x, y) {
     this.posx = x;
     this.posy = y;
     this.sposx = x;
     this.sposy = y;
+
     this.state = 0;
     this.animate = -1;
     this.reach = 0;
     this.stretch = 0;
     this.doing = 0;
+
     this.sizex = 150;
     this.sizey = 100;
     this.rad = 60;
+
     this.die = false;
     this.hurt = false;
   }
@@ -881,23 +887,25 @@ class Player {
   reset() {
     this.posx = this.sposx;
     this.posy = this.sposy;
+
     this.state = 0;
     this.animate = -1;
     this.reach = 0;
     this.stretch = 0;
     this.doing = 0;
+
     this.sizex = 150;
     this.sizey = 100;
     this.rad = 60;
+
     this.die = false;
     this.hurt = false;
   }
 
   display() {
-    // Your original logic uses (status == 2) for "player1".
-    // We keep it as-is to match your gameplay.
-    if (status === 2 || status === 7){
-      // ---------- player1 ----------
+    // ===================== MAP 1 (status === 2) =====================
+    if (status === 2) {
+      // ---- die ----
       if (this.die === true) {
         if (this.animate < 5) {
           this.animate += 1;
@@ -908,7 +916,10 @@ class Player {
           win = false;
         }
         return;
-      } else if (this.hurt === true) {
+      }
+
+      // ---- hurt ----
+      if (this.hurt === true) {
         if (this.animate < 7) {
           this.animate += 1;
           this.posx -= 10;
@@ -919,8 +930,101 @@ class Player {
           this.posy = 230;
         }
         return;
-      } else {
-        if (this.doing === 3 && this.animate !== 6) {
+      }
+
+      // ---- jump ----
+      if (this.doing === 3 && this.animate !== 6) {
+        if (this.animate < 1) {
+          this.animate += 1;
+        } else if (this.animate < 4) {
+          this.animate += 1;
+          this.posy -= 20;
+        } else if (this.animate < 6) {
+          this.animate += 1;
+          this.posy += 30;
+        } else {
+          this.animate = 6;
+        }
+        image(jump[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+        return;
+      }
+
+      // ---- fall down ----
+      if (this.doing === 33) {
+        if (this.posy < 230) {
+          this.posy += 20;
+          image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
+        } else {
+          this.posy = 230;
+          image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
+          this.doing = 0;
+        }
+        return;
+      }
+
+      // ---- finish attack ----
+      if (this.doing === 6 && this.animate < 7) {
+        this.animate += 1;
+        image(attack[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+        return;
+      }
+
+      // ---- controls ----
+      if (keyIsPressed) {
+        if (key === 'a') {
+          if (this.doing === 10 && this.posy < 300) {
+            this.doing = 33;
+            this.posx -= 10;
+            image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          if (this.doing !== 1) {
+            this.animate = 0;
+            this.doing = 1;
+          }
+
+          this.posx -= 20;
+          this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
+          image(runLeft[this.animate], this.posx, this.posy + 20, this.sizex * 0.4, this.sizey * 0.75);
+          return;
+
+        } else if (key === 'd') {
+          if (this.doing === 10 && this.posy < 230) {
+            this.doing = 33;
+            this.posx += 20;
+            image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          if (this.doing !== 2) {
+            this.animate = 0;
+            this.doing = 2;
+          }
+
+          this.posx += 20;
+          this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
+          image(run[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          return;
+
+        } else if (key === 'w') {
+          if (this.doing !== 3) this.animate = 0;
+          this.doing = 3;
+
+          // climb tree in map1
+          if (this.posx > 600 && this.posx < 640) {
+            this.doing = 10;
+            if (this.posy > 160) {
+              this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+              this.posy -= 6;
+              image(climb[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+            } else {
+              image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
+            }
+            return;
+          }
+
+          // normal jump
           if (this.animate < 1) {
             this.animate += 1;
           } else if (this.animate < 4) {
@@ -930,143 +1034,360 @@ class Player {
             this.animate += 1;
             this.posy += 30;
           } else {
-            this.animate = 6;
+            this.animate = 0;
           }
           image(jump[this.animate], this.posx, this.posy, this.sizex, this.sizey);
           return;
-        } else if (this.doing === 33) {
-          if (this.posy < 230) {
-            this.posy += 20;
-            image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
-          } else {
-            this.posy = 230;
-            image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
-            this.doing = 0;
-          }
-          return;
-        } else if (this.doing === 6 && this.animate < 7) {
-          this.animate += 1;
-          image(attack[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-          return;
-        } else if (keyIsPressed) {
-          if (key === 'a') {
-            if (this.doing === 10 && this.posy < 300) {
-              this.doing = 33;
-              this.posx -= 10;
-            } else if (this.doing !== 1) {
-              this.animate = 0;
-              this.doing = 1;
-              this.posx -= 10;
-              this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
-              image(runLeft[this.animate], this.posx, this.posy + 22, this.sizex * 0.4, this.sizey * 0.75);
-            } else {
-              this.posx -= 10;
-              this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
-              image(runLeft[this.animate], this.posx, this.posy + 20, this.sizex * 0.4, this.sizey * 0.75);
-            }
-            return;
-          } else if (key === 'd') {
-            if (this.doing === 10 && this.posy < 230) {
-              this.doing = 33;
-              this.posx += 10;
-            } else if (this.doing !== 2) {
-              this.animate = 0;
-              this.doing = 2;
-              this.posx += 10;
-              this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
-              image(run[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-            } else {
-              this.posx += 10;
-              this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
-              image(run[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-            }
-            return;
-          } else if (key === 'w') {
-            if (this.doing !== 3) this.animate = 0;
-            this.doing = 3;
 
-            if (this.posx > 600 && this.posx < 640) {
-              this.doing = 10;
-              if (this.posy > 160) {
-                this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
-                this.posy -= 6;
-                image(climb[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-              } else {
-                image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
-              }
-            } else {
-              if (this.animate < 1) {
-                this.animate += 1;
-              } else if (this.animate < 4) {
-                this.animate += 1;
-                this.posy -= 20;
-              } else if (this.animate < 6) {
-                this.animate += 1;
-                this.posy += 30;
-              } else {
-                this.animate = 0;
-              }
-              image(jump[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-            }
-            return;
-          } else if (key === 's') {
-            if (this.posx > 600 && this.posx < 640 && this.posy < 230) {
-              this.doing = 10;
-              this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
-              this.posy += 6;
-              if (this.posy > 230) this.posy = 230;
-              image(climb[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-            } else {
-              if (this.doing !== 4) this.animate = 0;
-              this.doing = 4;
-              this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
-              image(down[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-            }
-            return;
-          } else if (key === ' ') {
-            if (this.doing === 10 && this.posy < 230) {
-              image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
-            } else if (this.doing !== 6) {
-              this.animate = 0;
-              this.doing = 6;
-              this.animate = (this.animate < 6) ? (this.animate + 1) : 0;
-              image(attack[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-            } else {
-              this.animate = (this.animate < 6) ? (this.animate + 1) : 0;
-              image(attack[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-            }
-            return;
-          } else {
-            if (this.doing === 10 && this.posy < 230) {
-              image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
-            } else {
-              if (this.doing !== 0) this.animate = 0;
-              this.doing = 0;
-              this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
-              image(idle[this.animate], this.posx, this.posy, this.sizex, this.sizey);
-            }
+        } else if (key === 's') {
+          // climb down tree in map1
+          if (this.posx > 600 && this.posx < 640 && this.posy < 230) {
+            this.doing = 10;
+            this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+            this.posy += 6;
+            if (this.posy > 230) this.posy = 230;
+            image(climb[this.animate], this.posx, this.posy, this.sizex, this.sizey);
             return;
           }
-        } else {
+
+          // down animation
+          if (this.doing !== 4) this.animate = 0;
+          this.doing = 4;
+          this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+          image(down[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          return;
+
+        } else if (key === ' ') {
           if (this.doing === 10 && this.posy < 230) {
             image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
-          } else {
-            if (this.doing !== 0) this.animate = 0;
-            this.doing = 0;
-            this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
-            image(idle[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+            return;
           }
+
+          if (this.doing !== 6) {
+            this.animate = 0;
+            this.doing = 6;
+          }
+
+          this.animate = (this.animate < 6) ? (this.animate + 1) : 0;
+          image(attack[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          return;
+
+        } else {
+          // idle / other keys
+          if (this.doing === 10 && this.posy < 230) {
+            image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          if (this.doing !== 0) this.animate = 0;
+          this.doing = 0;
+          this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+          image(idle[this.animate], this.posx, this.posy, this.sizex, this.sizey);
           return;
         }
       }
-    } else {
-      // ---------- player2 branch ----------
-      // Your original Player class has a full "player2" branch here.
-      // For gameplay on GitHub Pages, you likely only use p1 anyway.
-      // If you truly need p2 displayed, tell me where p2.display() is called in your draw().
-      // For now, do nothing.
+
+      // no key pressed
+      if (this.doing === 10 && this.posy < 230) {
+        image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
+      } else {
+        if (this.doing !== 0) this.animate = 0;
+        this.doing = 0;
+        this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+        image(idle[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+      }
       return;
     }
+
+    // ===================== MAP 2 (status === 7) =====================
+    if (status === 7) {
+      // ---- die ----
+      if (this.die === true) {
+        if (this.animate < 5) {
+          this.animate += 1;
+          image(pdie[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+        } else {
+          image(pdie[5], this.posx, this.posy, this.sizex, this.sizey);
+          win = false;
+          status = 5;
+        }
+        return;
+      }
+
+      // ---- hurt ----
+      if (this.hurt === true) {
+        if (this.posx > 600 && this.posx < 1090) { // in highground
+          if (this.doing !== 123) {
+            this.doing = 123;
+            this.animate = 0;
+          }
+          if (this.animate === 0) {
+            this.animate += 1;
+            this.posx -= 10;
+            this.posy = 270;
+            image(hurtt[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          } else if (this.animate < 7) {
+            this.animate += 1;
+            this.posx -= 10;
+            image(hurtt[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          } else {
+            this.hurt = false;
+            this.animate = 0;
+            this.posy = 240;
+            this.doing = 2;
+          }
+        } else { // not in highground
+          if (this.doing !== 123) {
+            this.doing = 123;
+            this.animate = 0;
+          }
+          if (this.animate === 0) {
+            this.animate += 1;
+            this.posx -= 10;
+            this.posy = 375;
+            image(hurtt[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          } else if (this.animate < 7) {
+            this.animate += 1;
+            this.posx -= 10;
+            image(hurtt[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          } else {
+            this.hurt = false;
+            this.animate = 0;
+            this.posy = 345;
+            this.doing = 2;
+          }
+        }
+        return;
+      }
+
+      // ---- jump ----
+      if (this.doing === 3 && this.animate !== 6) {
+        if (this.animate < 1) {
+          this.animate += 1;
+        } else if (this.animate < 4) {
+          this.animate += 1;
+          this.posy -= 20;
+        } else if (this.animate < 6) {
+          this.animate += 1;
+          this.posy += 30;
+        } else {
+          this.animate = 6;
+        }
+        image(jump[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+        return;
+      }
+
+      // ---- fall down ----
+      if (this.doing === 33) {
+        if (this.posy < 365) {
+          this.posy += 20;
+          image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
+        } else {
+          this.posy = 385;
+          image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
+          this.doing = 0;
+        }
+        return;
+      }
+
+      // ---- finish attack ----
+      if (this.doing === 6 && this.animate < 7) {
+        this.animate += 1;
+        image(attack[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+        return;
+      }
+
+      // ---- controls ----
+      if (keyIsPressed) {
+        if (key === 'a') {
+
+          if (this.doing === 10 && this.posy < 385 && this.posy > 240) {
+            this.doing = 33;
+            this.posx -= 10;
+            image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          if (this.doing !== 1) {
+            this.animate = 0;
+            this.doing = 1;
+          }
+
+          // map2 movement constraints on highground
+          if (this.posy <= 240) {
+            if (this.posx > 705) this.posx -= 20;
+          } else {
+            this.posx -= 20;
+          }
+
+          // terrain follow (ported exactly)
+          if (this.posx > 120 && this.posx < 260) {
+            if (this.posy < 287) this.posy = 277;
+            else this.posy -= 15;
+          }
+          if (this.posx > 540 && this.posx < 660) {
+            this.posy -= 9;
+            if (this.posy < 345) this.posy = 345;
+          }
+          if (this.posx > 1070 && this.posx < 1130) {
+            this.posy += 15;
+            if (this.posy > 385) this.posy = 385;
+          }
+          if (this.posx > 1280 && this.posx < 1400) {
+            if (this.posy > 340) this.posy = 355;
+            else this.posy += 15;
+          }
+
+          this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
+          image(runLeft[this.animate], this.posx, this.posy + 20, this.sizex * 0.4, this.sizey * 0.75);
+          return;
+
+        } else if (key === 'd') {
+
+          if (this.doing === 10 && this.posy < 385 && this.posy > 240) {
+            this.doing = 33;
+            this.posx += 10;
+            image(jump[3], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          if (this.doing !== 2) {
+            this.animate = 0;
+            this.doing = 2;
+          }
+
+          if (this.posy <= 240) {
+            if (this.posx < 1049) this.posx += 20;
+          } else {
+            this.posx += 20;
+          }
+
+          // terrain follow (ported exactly)
+          if (this.posx > 120 && this.posx < 260) {
+            if (this.posy > 345) this.posy = 355;
+            else this.posy += 15;
+          }
+          if (this.posx > 540 && this.posx < 660) {
+            this.posy += 9;
+            if (this.posy > 385) this.posy = 385;
+          }
+          if (this.posx > 1070 && this.posx < 1130) {
+            this.posy -= 15;
+            if (this.posy < 345) this.posy = 345;
+          }
+          if (this.posx > 1280 && this.posx < 1400) {
+            if (this.posy < 290) this.posy = 275;
+            else this.posy -= 15;
+          }
+
+          this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
+          image(run[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          return;
+
+        } else if (key === 'w') {
+
+          if (this.doing !== 3) this.animate = 0;
+          this.doing = 3;
+
+          // jump on highground
+          if (this.posx > 750 && this.posx < 1020 && this.posy <= 240) {
+            if (this.animate < 1) this.animate += 1;
+            else if (this.animate < 4) { this.animate += 1; this.posy -= 20; }
+            else if (this.animate < 6) { this.animate += 1; this.posy += 30; }
+            else this.animate = 0;
+
+            image(jump[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          // climb tree
+          if (this.posx > 750 && this.posx < 1020) {
+            this.doing = 10;
+            if (this.posy > 240) {
+              this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+              this.posy -= 6;
+              if (this.posy < 240) this.posy = 240;
+              image(climb[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+            } else {
+              this.animate = 0;
+              this.doing = 2;
+            }
+            return;
+          }
+
+          // normal jump
+          if (this.animate < 1) this.animate += 1;
+          else if (this.animate < 4) { this.animate += 1; this.posy -= 20; }
+          else if (this.animate < 6) { this.animate += 1; this.posy += 30; }
+          else this.animate = 0;
+
+          image(jump[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          return;
+
+        } else if (key === 's') {
+
+          // climb down
+          if (this.posx > 750 && this.posx < 1020 && this.posy < 385) {
+            this.doing = 10;
+            this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+            this.posy += 6;
+            if (this.posy > 385) this.posy = 385;
+            image(climb[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          // down animation
+          if (this.doing !== 4) this.animate = 0;
+          this.doing = 4;
+          this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+          image(down[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          return;
+
+        } else if (key === ' ') {
+
+          if (this.doing === 10 && this.posy < 385 && this.posy > 250) {
+            image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          if (this.doing !== 6) {
+            this.animate = 0;
+            this.doing = 6;
+          }
+
+          this.animate = (this.animate < 6) ? (this.animate + 1) : 0;
+          image(attack[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          return;
+
+        } else {
+          // idle / other keys
+          if (this.doing === 10 && this.posy < 385 && this.posy > 250) {
+            image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
+            return;
+          }
+
+          if (this.doing !== 0) this.animate = 0;
+          this.doing = 0;
+          this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+          image(idle[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+          return;
+        }
+      }
+
+      // no key pressed (map2)
+      if (this.doing === 10 && this.posy < 385 && this.posy > 240) {
+        image(climb[0], this.posx, this.posy, this.sizex, this.sizey);
+      } else {
+        if (this.doing !== 0) this.animate = 0;
+        this.doing = 0;
+        this.animate = (this.animate < 3) ? (this.animate + 1) : 0;
+        image(idle[this.animate], this.posx, this.posy, this.sizex, this.sizey);
+      }
+      return;
+    }
+
+    // Other screens: do nothing
   }
 }
+
 
