@@ -480,8 +480,8 @@ function handleStars() {
     }
   }
 
-  // spawn a star every 20 frames
-  if (frameCount % 20 === 1) {
+  // spawn a star every 35 frames
+  if (frameCount % 35 === 1) {
     const newStar = new Star();
     stars.push(newStar);
     newStar.changeSpeed(changeSpeed1 / 100);
@@ -746,7 +746,7 @@ class Star {
     this.minR = 8;
     this.xpos = random(width);
     this.ypos = -this.maxR;
-    this.yspd = random(4, 7);
+    this.yspd = random(2, 4);
     this.angle = 0;
     this.angleSpd = random(-0.1, 0.1);
     this.circlePos = 0;
@@ -825,7 +825,7 @@ class Eagle {
         else if (this.ypos < 180) this.dirc = 1;
       }
 
-      this.ypos += 10 * this.dirc;
+      this.ypos += 4 * this.dirc;
 
       if (dist(this.xpos, this.ypos, p1.posx + 55, p1.posy + 25) < (p1.rad) && p1.hurt === false) {
         if (hp > 40) {
@@ -956,11 +956,11 @@ class Player {
             } else if (this.doing !== 1) {
               this.animate = 0;
               this.doing = 1;
-              this.posx -= 20;
+              this.posx -= 10;
               this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
               image(runLeft[this.animate], this.posx, this.posy + 22, this.sizex * 0.4, this.sizey * 0.75);
             } else {
-              this.posx -= 20;
+              this.posx -= 10;
               this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
               image(runLeft[this.animate], this.posx, this.posy + 20, this.sizex * 0.4, this.sizey * 0.75);
             }
@@ -968,15 +968,15 @@ class Player {
           } else if (key === 'd') {
             if (this.doing === 10 && this.posy < 230) {
               this.doing = 33;
-              this.posx += 20;
+              this.posx += 10;
             } else if (this.doing !== 2) {
               this.animate = 0;
               this.doing = 2;
-              this.posx += 20;
+              this.posx += 10;
               this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
               image(run[this.animate], this.posx, this.posy, this.sizex, this.sizey);
             } else {
-              this.posx += 20;
+              this.posx += 10;
               this.animate = (this.animate < 5) ? (this.animate + 1) : 0;
               image(run[this.animate], this.posx, this.posy, this.sizex, this.sizey);
             }
