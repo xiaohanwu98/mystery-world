@@ -84,7 +84,6 @@ let uiRadioBGM;
 // localStorage keys
 const LS_LEVELS = "mysteryworld_levels";
 const LS_SECS = "mysteryworld_secs";
-const MOVE_STEP = 3;
 
 // ============================
 // preload: load images + sounds
