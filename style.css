@@ -17,3 +17,18 @@ canvas { display: block; margin: 0 auto; }
 #instructions ul {
   padding-left: 20px;
 }
+
+#exitBtn {
+  margin-top: 12px;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  background: #c0392b;
+  color: white;
+  cursor: pointer;
+}
+
+#exitBtn:hover {
+  background: #e74c3c;
+}
