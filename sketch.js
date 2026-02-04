@@ -23,6 +23,35 @@ let gameWidth = 1920;
 let gameHeight = 640;
 let sec = 0;
 
+let prevStatus = 1;
+let timerStartMs = 0;
+let pausedMs = 0;
+let pauseStartMs = null;
+
+function startTimer() {
+  timerStartMs = millis();
+  pausedMs = 0;
+  pauseStartMs = null;
+  sec = 0;
+}
+
+function pauseTimer() {
+  if (pauseStartMs === null) pauseStartMs = millis();
+}
+
+function resumeTimer() {
+  if (pauseStartMs !== null) {
+    pausedMs += (millis() - pauseStartMs);
+    pauseStartMs = null;
+  }
+}
+
+function updateSecFromTimer() {
+  const now = millis();
+  const extraPaused = (pauseStartMs !== null) ? (now - pauseStartMs) : 0;
+  sec = Math.floor((now - timerStartMs - pausedMs - extraPaused) / 1000);
+}
+
 let p1, p2;
 let e1, e2, e3, e4;
 let e11, e12, e14, e15, e16, e17, e18, e19, e20;
@@ -261,6 +290,26 @@ function draw() {
   else changed = false;
   oldspeed = changeSpeed1;
 
+  // --- status transitions for timer ---
+  if (status !== prevStatus) {
+    // entering gameplay (level 1 or level 2) from a non-game screen
+    if ((status === 2 || status === 7) && !(prevStatus === 2 || prevStatus === 7)) {
+      startTimer();
+    }
+
+    // pausing
+    if (status === 4) {
+      pauseTimer();
+    }
+
+    // resuming from pause back to gameplay
+    if ((status === 2 || status === 7) && prevStatus === 4) {
+      resumeTimer();
+    }
+
+    prevStatus = status;
+  }
+
   switch (status) {
     case 1:
       drawStartScreen();
@@ -318,7 +367,7 @@ function drawStartScreen() {
 }
 
 function drawLevel1() {
-  sec += 1;
+  updateSecFromTimer();
 
   image(map1, 0, 0, gameWidth, gameHeight);
   image(house, gameWidth - 240, 90, 220, 240);
@@ -427,7 +476,7 @@ function drawScoreboard() {
 
   for (let i = 0; i < topSecs.length && i < 5; i++) {
     // your Processing had int2.get(i)/11 "sec" (frame-based). We keep same conversion.
-    text(`No.${i + 1}  ${Math.floor(topSecs[i] / 11)} sec`, width * 3 / 4 - 190, height / 6 + 90 * (i + 1));
+    text(`No.${i + 1}  ${topSecs[i]} sec`, width * 3 / 4 - 190, height / 6 + 90 * (i + 1));
   }
 
   drawButton(width / 2 - 150, height * 2 / 3 + 50, 300, 100, "Back", () => {
@@ -436,7 +485,7 @@ function drawScoreboard() {
 }
 
 function drawLevel2() {
-  sec += 1;
+  updateSecFromTimer();
 
   image(map2, 0, 0, gameWidth, gameHeight);
 
