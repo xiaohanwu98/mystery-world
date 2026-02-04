@@ -896,7 +896,7 @@ class Player {
   display() {
     // Your original logic uses (status == 2) for "player1".
     // We keep it as-is to match your gameplay.
-    if (status === 2) {
+    if (status === 2 || status === 7){
       // ---------- player1 ----------
       if (this.die === true) {
         if (this.animate < 5) {
