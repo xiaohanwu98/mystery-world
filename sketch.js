@@ -415,7 +415,7 @@ function drawEndScreen() {
   textSize(80);
   textAlign(CENTER, CENTER);
   fill(255);
-  if (win === true) text("Congratulation! You win the game!", width / 2, height / 6);
+  if (win === true) text("Congratulations!", width / 2, height / 6);
   else text("Sorry, You are dead.", width / 2, height / 6);
 
   // reset everything each frame (same as your code)
